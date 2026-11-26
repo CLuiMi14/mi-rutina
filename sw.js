@@ -1,0 +1,6 @@
+const C="rutina-v1";
+const F=["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "img/e00.jpg", "img/e01.jpg", "img/e02.jpg", "img/e03.jpg", "img/e04.jpg", "img/e05.jpg", "img/e06.jpg", "img/e07.jpg", "img/e08.jpg", "img/e09.jpg", "img/e10.jpg", "img/e11.jpg", "img/e12.jpg", "img/e13.jpg", "img/e14.jpg", "img/e15.jpg", "img/e16.jpg", "img/e17.jpg", "img/e18.jpg", "img/e19.jpg", "img/e20.jpg", "img/e21.jpg", "img/e22.jpg", "img/e23.jpg", "img/e24.jpg", "img/e25.jpg", "img/e26.jpg", "img/e27.jpg", "img/e28.jpg", "img/e29.jpg", "img/e30.jpg", "img/e31.jpg", "img/e32.jpg", "img/e33.jpg", "img/e34.jpg", "img/e35.jpg", "img/e36.jpg", "img/e37.jpg", "img/e38.jpg"];
+self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(F)).then(()=>self.skipWaiting()))});
+self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
+self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;
+e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(r=>r||fetch(e.request).then(n=>{const cp=n.clone();caches.open(C).then(c=>c.put(e.request,cp));return n}).catch(()=>caches.match("index.html"))))});
